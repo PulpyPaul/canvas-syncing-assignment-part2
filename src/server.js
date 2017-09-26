@@ -19,19 +19,19 @@ console.log(`Listening on 127.0.0.1: ${port}`);
 // pass in the http server into socketio and grab the websocket server as io
 const io = socketio(app);
 
-io.sockets.on('connection', (socket) => {
-    console.log('connected!');
-    
-    socket.join('room1');
-    
-    addObject(socket);
-});
-
 const addObject = (sock) => {
-    const socket = sock;
-    
-    socket.on('draw', (data) => {
-        io.sockets.in('room1').emit('updateCanvas', data);
-    });
+  const socket = sock;
+
+  socket.on('draw', (data) => {
+    io.sockets.in('room1').emit('updateCanvas', data);
+  });
 };
+
+io.sockets.on('connection', (socket) => {
+  console.log('connected!');
+
+  socket.join('room1');
+
+  addObject(socket);
+});
 
